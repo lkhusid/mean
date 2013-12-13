@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 var should = require('should'),
-    app = require('../../server'),
+    app = require('../../../server'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'),
     Article = mongoose.model('Article');
@@ -56,7 +56,7 @@ describe('<Unit Test>', function() {
             User.remove({});
             done();
         });
-        after(function(done){
+        after(function(done) {
             Article.remove().exec();
             User.remove().exec();
             done();

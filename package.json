@@ -31,6 +31,7 @@
         "passport-github": "latest",
         "passport-google-oauth": "latest",
         "underscore": "latest",
+        "async": "latest",
         "view-helpers": "latest",
         "mean-logger": "latest",
         "forever": "latest",
@@ -46,6 +47,17 @@
         "grunt-contrib-jshint": "latest",
         "grunt-nodemon": "latest",
         "grunt-concurrent": "latest",
-        "grunt-mocha-test": "latest"
+        "grunt-mocha-test": "latest",
+        "karma-script-launcher": "~0.1.0",
+        "karma-chrome-launcher": "~0.1.0",
+        "karma-firefox-launcher": "~0.1.0",
+        "karma-html2js-preprocessor": "~0.1.0",
+        "karma-jasmine": "~0.1.3",
+        "karma-requirejs": "~0.1.0",
+        "karma-coffee-preprocessor": "~0.1.0",
+        "karma-phantomjs-launcher": "~0.1.0",
+        "karma": "~0.10.4",
+        "grunt-karma": "~0.6.2",
+        "karma-coverage": "~0.1.0"
     }
 }

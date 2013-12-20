@@ -1,3 +1,24 @@
 <section data-ng-controller="IndexController">
 	<h1>This is the home view</h1>
+  <div class="alert alert-info">
+    <ul class="unstyled">
+      <li ng-repeat="o in outings | orderBy:'title'">
+        <a class="btn btn-mini" ng-click="joinOuting(o)"><i class="icon-signin icon-large"> Join</i></a>
+        {{ o.title }}
+      </li>
+    </ul>
+  </div>
+  <div class="alert alert-success" ng-init="edit={id: ''}">
+    <ul class="unstyled">
+      <li ng-repeat="o in myOutings | orderBy:'title'">
+        <a class="btn btn-mini" ng-click="quitOuting(o)"><i class="icon-signout icon-large"> Quit</i></a>
+        <a ng-if="edit.id != o._id" ng-click="edit.id = o._id">{{ o.title }}</a>
+        <div class="input-append" ng-if="edit.id == o._id">
+          <input type="text" ng-model="o.title">
+          <a class="btn btn-success add-on" ng-click="edit.id=''; saveOuting(o)"><i class="icon-ok"></i></a>
+          <a class="btn btn-danger add-on" ng-click="edit.id=''"><i class="icon-remove"></i></a>
+        </div>
+      </li>
+    </ul>
+  </div>
 </section>

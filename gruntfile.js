@@ -6,21 +6,28 @@ module.exports = function(grunt) {
             jade: {
                 files: ['app/views/**'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             js: {
-                files: ['public/js/**', 'app/**/*.js'],
+                files: ['public/js/**', 'app/**/*.js', 'app/**/*.coffee'],
                 tasks: ['jshint'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
+            },
+            coffee_client: {
+                files: ['public/js/**/*.coffee'],
+                tasks: ['coffee'],
+                options: {
+                  livereload: true
+                }
             },
             html: {
                 files: ['public/views/**'],
                 options: {
-                    livereload: true,
-                },
+                    livereload: true
+                }
             },
             css: {
                 files: ['public/css/**'],
@@ -28,6 +35,17 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             }
+        },
+        coffee: {
+          compile: {
+            files: [{
+              expand: true,
+              cwd: 'public/js',
+              src:  ['**/*.coffee'],
+              dest: 'public/js',
+              ext:  '.js'
+            }]
+          }
         },
         jshint: {
             all: ['gruntfile.js', 'public/js/**/*.js', 'test/mocha/**/*.js', 'test/karma/**/*.js', 'app/**/*.js']
@@ -38,7 +56,7 @@ module.exports = function(grunt) {
                     file: 'server.js',
                     args: [],
                     ignoredFiles: ['README.md', 'node_modules/**', '.DS_Store'],
-                    watchedExtensions: ['js'],
+//                    watchedExtensions: ['js'],
                     watchedFolders: ['app', 'config'],
                     debug: true,
                     delayTime: 1,
@@ -73,9 +91,10 @@ module.exports = function(grunt) {
         }
     });
 
-    //Load NPM tasks 
+    //Load NPM tasks
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-nodemon');
@@ -86,7 +105,7 @@ module.exports = function(grunt) {
     grunt.option('force', true);
 
     //Default task(s).
-    grunt.registerTask('default', ['jshint', 'concurrent']);
+    grunt.registerTask('default', ['jshint', 'coffee', 'concurrent']);
 
     //Test task.
     grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);

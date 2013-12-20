@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+require("coffee-script");
 var express = require('express'),
     fs = require('fs'),
     passport = require('passport'),
@@ -41,7 +42,9 @@ walk(models_path);
 //bootstrap passport config
 require('./config/passport')(passport);
 
-var app = express();
+var app       = express(),
+    server    = require('http').createServer(app);
+    messaging = require('./config/messaging')(server);
 
 //express settings
 require('./config/express')(app, passport, db);
@@ -51,7 +54,7 @@ require('./config/routes')(app, passport, auth);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || config.port;
-app.listen(port);
+server.listen(port);
 console.log('Express app started on port ' + port);
 
 //Initializing logger

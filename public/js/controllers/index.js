@@ -1,19 +1,19 @@
 (function() {
   angular.module("mean.system").controller("IndexController", [
     "$scope", "$socket", "Global", "Outings", function(scope, socket, Global, Outings) {
-      var logError;
+      var loadOutings, logError;
       scope.global = Global;
       logError = function(e) {
         return console.log(e);
       };
-      scope.outings = [];
-      Outings.myOutings(function(myOutings) {
-        scope.myOutings = myOutings;
+      loadOutings = function() {
         return Outings.query(function(outings) {
-          var myOutingMap, o, _i, _j, _len, _len1, _results;
+          var myOutingMap, o, _i, _j, _len, _len1, _ref, _results;
+          scope.outings = [];
           myOutingMap = {};
-          for (_i = 0, _len = myOutings.length; _i < _len; _i++) {
-            o = myOutings[_i];
+          _ref = scope.myOutings;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            o = _ref[_i];
             myOutingMap[o._id] = true;
           }
           _results = [];
@@ -25,6 +25,10 @@
           }
           return _results;
         });
+      };
+      Outings.myOutings(function(myOutings) {
+        scope.myOutings = myOutings;
+        return loadOutings();
       });
       scope.joinOuting = function(outing) {
         return outing.$join((function() {
@@ -42,11 +46,19 @@
           return scope.outings.push(outing);
         }), logError);
       };
-      scope.saveOuting = function(outing) {
-        return outing.$update((function() {
+      scope.createOuting = function(outing) {
+        return new Outings(outing).$save((function() {
           return console.log("saved");
         }), logError);
       };
+      scope.saveOuting = function(outing) {
+        return outing.$update((function() {
+          return console.log("updated");
+        }), logError);
+      };
+      socket.on("outing-create", function(outing) {
+        return loadOutings();
+      });
       return socket.on("outing-update", function(outing) {
         var dest;
         outing = JSON.parse(outing);

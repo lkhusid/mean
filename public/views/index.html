@@ -1,14 +1,21 @@
 <section data-ng-controller="IndexController">
 	<h1>This is the home view</h1>
   <div class="alert alert-info">
+    <h5>Avaialble Outings</h5>
     <ul class="unstyled">
       <li ng-repeat="o in outings | orderBy:'title'">
         <a class="btn btn-mini" ng-click="joinOuting(o)"><i class="icon-signin icon-large"> Join</i></a>
         {{ o.title }}
       </li>
     </ul>
+    <div class="input-append" ng-init="outing = {title: ''}">
+      <input type="text" ng-model="outing.title">
+      <a class="btn btn-success add-on" ng-click="createOuting(outing); outing.title=''"><i class="icon-plus"> Add</i></a>
+      <a class="btn btn-danger add-on" ng-click="outing.title=''"><i class="icon-remove-circle"> Clear</i></a>
+    </div>
   </div>
   <div class="alert alert-success" ng-init="edit={id: ''}">
+    <h5>My Outings</h5>
     <ul class="unstyled">
       <li ng-repeat="o in myOutings | orderBy:'title'">
         <a class="btn btn-mini" ng-click="quitOuting(o)"><i class="icon-signout icon-large"> Quit</i></a>

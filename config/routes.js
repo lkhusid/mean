@@ -75,6 +75,7 @@ module.exports = function (app, passport, auth) {
   app.get('/outings', auth.requiresLogin, outings.all);
   app.get('/outings/my', auth.requiresLogin, outings.my);
   app.get('/outings/:outingId', auth.requiresLogin, auth.outing.hasAuthorization, outings.show);
+  app.post('/outings', auth.requiresLogin, outings.create);
   app.put('/outings/:outingId', auth.requiresLogin, auth.outing.hasAuthorization, outings.update);
   app.put('/outings/:outingId/join', auth.requiresLogin, outings.join);
   app.put('/outings/:outingId/quit', auth.requiresLogin, auth.outing.hasAuthorization, outings.quit);

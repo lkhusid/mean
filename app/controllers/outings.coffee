@@ -22,6 +22,17 @@ exports.my = (req, res) ->
 exports.show = (req, res) ->
   res.jsonp(req.outing)
 
+exports.create = (req, res) ->
+  outing = new Outing(req.body)
+  outing.players ||= []
+
+  outing.save (err) ->
+    if err
+      res.render('error', {status: 500})
+    else
+      messaging.emit("outing-create", JSON.stringify(outing))
+      res.jsonp outing
+
 exports.update = (req, res) ->
   outing = _.extend(req.outing, req.body)
   outing.save (err) ->

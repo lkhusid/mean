@@ -4,14 +4,17 @@ angular.module("mean.system").controller "IndexController", ["$scope", "$socket"
   logError = (e) ->
     console.log(e)
 
-  scope.outings = []
-  Outings.myOutings((myOutings) ->
-    scope.myOutings = myOutings
+  loadOutings = ->
     Outings.query((outings) ->
+      scope.outings = []
       myOutingMap = {}
-      myOutingMap[o._id] = true for o in myOutings
+      myOutingMap[o._id] = true for o in scope.myOutings
       scope.outings.push(o) for o in outings when myOutingMap[o._id] isnt true
     )
+
+  Outings.myOutings((myOutings) ->
+    scope.myOutings = myOutings
+    loadOutings()
   )
 
   scope.joinOuting = (outing) ->
@@ -28,11 +31,21 @@ angular.module("mean.system").controller "IndexController", ["$scope", "$socket"
     ),
     logError
 
-  scope.saveOuting = (outing) ->
-    outing.$update (->
+  scope.createOuting = (outing) ->
+    new Outings(outing).$save (->
       console.log "saved"
     ),
     logError
+
+  scope.saveOuting = (outing) ->
+    outing.$update (->
+      console.log "updated"
+    ),
+    logError
+
+  socket.on("outing-create", (outing) ->
+    loadOutings()
+  )
 
   socket.on("outing-update", (outing) ->
     outing = JSON.parse(outing)
